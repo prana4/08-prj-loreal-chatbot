@@ -50,8 +50,15 @@ const USE_LOCAL_TESTING = true; // Set to false when using Cloudflare Worker
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  console.log("🚀 Form submitted!");
+
   const message = userInput.value.trim();
-  if (!message) return;
+  if (!message) {
+    console.log("❌ Empty message, returning");
+    return;
+  }
+
+  console.log("📝 User message:", message);
 
   // Clear input and disable form
   userInput.value = "";
@@ -67,12 +74,25 @@ chatForm.addEventListener("submit", async (e) => {
     content: message,
   });
 
+  console.log(
+    "💬 Conversation history:",
+    conversationHistory.length,
+    "messages",
+  );
+
   // Show loading indicator
   const loadingId = showLoadingMessage();
 
   try {
+    console.log("🔄 Getting AI response...");
+
     // Get AI response
     const aiResponse = await getAIResponse();
+
+    console.log(
+      "✅ AI response received:",
+      aiResponse.substring(0, 50) + "...",
+    );
 
     // Remove loading indicator
     removeLoadingMessage(loadingId);
@@ -90,8 +110,12 @@ chatForm.addEventListener("submit", async (e) => {
     // Scroll to bottom
     scrollToBottom();
   } catch (error) {
+    console.error("❌ ERROR:", error);
+    console.error("Error details:", error.message);
+    console.error("Full error:", error);
+
     removeLoadingMessage(loadingId);
-    displayErrorMessage(error.message);
+    displayErrorMessage(error.message || "Unknown error occurred");
   } finally {
     setFormDisabled(false);
     userInput.focus();
@@ -139,7 +163,7 @@ function displayAIMessage(message) {
   // Convert line breaks to paragraphs for better formatting
   const paragraphs = message.split("\n\n").filter((p) => p.trim());
   bubble.innerHTML = paragraphs
-    .map((p) => `<p>${escapeHtml(p.trim())}</p>`)
+    .map((p) => `<p>${formatMarkdown(p.trim())}</p>`)
     .join("");
 
   messageContainer.appendChild(label);
@@ -278,6 +302,17 @@ function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
+}
+
+// Format markdown-style bold text (**text** -> <strong>text</strong>)
+function formatMarkdown(text) {
+  // First escape HTML to prevent XSS attacks
+  let formatted = escapeHtml(text);
+
+  // Then convert **bold** to <strong>bold</strong>
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+  return formatted;
 }
 
 // ===== INITIALIZE =====

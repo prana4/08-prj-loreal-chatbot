@@ -8,9 +8,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <!-- Using Inter as a modern alternative to Helvetica Now -->
+    <!-- Using Montserrat as modern alternative to Helvetica Now -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -21,8 +21,8 @@
       <!------- Header / Branding ------->
       <header class="site-header">
         <div class="logo-container">
-          <h1 class="site-title">L'ORÉAL</h1>
-          <p class="tagline">Beauty Assistant</p>
+          <h1 class="brand-logo">L'ORÉAL</h1>
+          <p class="brand-tagline">Beauty Assistant</p>
         </div>
       </header>
 
@@ -31,12 +31,22 @@
         <section class="chatbox">
           <div id="chatWindow" class="chat-window">
             <!-- Initial welcome message -->
-            <div class="msg ai-msg">
-              <div class="msg-content">
-                <p>✨ Welcome to L'Oréal Beauty Assistant!</p>
-                <p>I'm here to help you discover the perfect products for your beauty routine. Whether you're looking for makeup, skincare, haircare, or fragrances, I can provide personalized recommendations and answer your questions.</p>
-                <p>How can I help you today?</p>
-              </div>
+            <div class="welcome-message">
+              <div class="welcome-icon">💄</div>
+              <h3>Welcome to Your L'Oréal Beauty Assistant!</h3>
+              <p>
+                I'm here to help you discover our extensive range of products
+                and create personalized beauty routines. Ask me about:
+              </p>
+              <ul>
+                <li>💋 Makeup products and recommendations</li>
+                <li>✨ Skincare routines and solutions</li>
+                <li>💇‍♀️ Haircare products and tips</li>
+                <li>🌸 Fragrances and gift suggestions</li>
+              </ul>
+              <p class="welcome-prompt">
+                <strong>What can I help you with today?</strong>
+              </p>
             </div>
           </div>
 
@@ -60,4 +70,23 @@
 
       <!------- Footer Links ------->
       <footer class="site-footer">
-        <p>&copy; 2025 L'Oréal. Because
+        <p>&copy; 2025 L'Oréal. Because You're Worth It.</p>
+        <nav>
+          <a href="https://www.loreal.com" target="_blank">L'Oréal.com</a>
+          <a href="https://www.loreal.com/en/privacy-policy/" target="_blank"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://www.loreal.com/en/commitments-and-responsibilities/"
+            target="_blank"
+            >Sustainability</a
+          >
+        </nav>
+      </footer>
+    </div>
+
+    <!-- ⚠️ CRITICAL: Uncomment this line for LOCAL TESTING -->
+    <script src="secrets.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
