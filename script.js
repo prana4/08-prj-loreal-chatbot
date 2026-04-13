@@ -41,10 +41,11 @@ let userName = null;
 
 // ===== API CONFIGURATION =====
 // IMPORTANT: Replace this with your Cloudflare Worker URL after deployment
-const CLOUDFLARE_WORKER_URL = "YOUR_CLOUDFLARE_WORKER_URL_HERE";
+const CLOUDFLARE_WORKER_URL =
+  "https://loreal-beauty-assistant.prana4.workers.dev/";
 
 // For local testing with secrets.js (remove before deployment)
-const USE_LOCAL_TESTING = true; // Set to false when using Cloudflare Worker
+const USE_LOCAL_TESTING = false; // Set to false when using Cloudflare Worker
 
 // ===== MAIN FUNCTION: Handle form submission =====
 chatForm.addEventListener("submit", async (e) => {
