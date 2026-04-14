@@ -1,6 +1,5 @@
 /* ========================================
    L'ORÉAL BEAUTY ASSISTANT - JAVASCRIPT
-   Features: OpenAI API + All 3 LevelUps (25 pts)
    ======================================== */
 
 // DOM elements
@@ -25,6 +24,7 @@ IMPORTANT GUIDELINES:
 6. Remember context from earlier in the conversation
 7. Keep responses conversational and concise (2-4 paragraphs maximum)
 8. Use emojis sparingly for warmth (✨💄🌸)
+9. ALWAYS format product names in bold using **Product Name** syntax
 
 L'Oréal Product Categories:
 - MAKEUP: Foundations, lipsticks, mascaras, eyeshadows (Infallible, True Match, Colour Riche lines)
@@ -40,26 +40,18 @@ If asked about topics outside of L'Oréal or beauty, politely respond: "I'm spec
 let userName = null;
 
 // ===== API CONFIGURATION =====
-// IMPORTANT: Replace this with your Cloudflare Worker URL after deployment
-const CLOUDFLARE_WORKER_URL =
-  "https://loreal-beauty-assistant.prana4.workers.dev/";
+// PRODUCTION: Cloudflare Worker URL (replace with your actual URL)
+const CLOUDFLARE_WORKER_URL = "https://loreal-beauty-assistant.prana4.workers.dev";
 
-// For local testing with secrets.js (remove before deployment)
-const USE_LOCAL_TESTING = false; // Set to false when using Cloudflare Worker
+// Set to false for production deployment
+const USE_LOCAL_TESTING = false;
 
 // ===== MAIN FUNCTION: Handle form submission =====
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  console.log("🚀 Form submitted!");
-
   const message = userInput.value.trim();
-  if (!message) {
-    console.log("❌ Empty message, returning");
-    return;
-  }
-
-  console.log("📝 User message:", message);
+  if (!message) return;
 
   // Clear input and disable form
   userInput.value = "";
@@ -75,25 +67,12 @@ chatForm.addEventListener("submit", async (e) => {
     content: message,
   });
 
-  console.log(
-    "💬 Conversation history:",
-    conversationHistory.length,
-    "messages",
-  );
-
   // Show loading indicator
   const loadingId = showLoadingMessage();
 
   try {
-    console.log("🔄 Getting AI response...");
-
     // Get AI response
     const aiResponse = await getAIResponse();
-
-    console.log(
-      "✅ AI response received:",
-      aiResponse.substring(0, 50) + "...",
-    );
 
     // Remove loading indicator
     removeLoadingMessage(loadingId);
@@ -111,12 +90,8 @@ chatForm.addEventListener("submit", async (e) => {
     // Scroll to bottom
     scrollToBottom();
   } catch (error) {
-    console.error("❌ ERROR:", error);
-    console.error("Error details:", error.message);
-    console.error("Full error:", error);
-
     removeLoadingMessage(loadingId);
-    displayErrorMessage(error.message || "Unknown error occurred");
+    displayErrorMessage(error.message);
   } finally {
     setFormDisabled(false);
     userInput.focus();
@@ -309,10 +284,10 @@ function escapeHtml(text) {
 function formatMarkdown(text) {
   // First escape HTML to prevent XSS attacks
   let formatted = escapeHtml(text);
-
+  
   // Then convert **bold** to <strong>bold</strong>
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
   return formatted;
 }
 
